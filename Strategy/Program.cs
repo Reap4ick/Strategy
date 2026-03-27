@@ -32,7 +32,6 @@ public class Program
                 services.AddSingleton<IExchangeClient>(sp =>
                     new GateClient(sp.GetRequiredService<HttpClient>(), gateApiKey, gateSecret));
 
-                // Infrastructure - Telegram
                 services.AddSingleton<TelegramBotService>(sp =>
                     new TelegramBotService(sp.GetRequiredService<ILogger<TelegramBotService>>(), tgToken, tgChatId));
 
