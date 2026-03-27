@@ -36,7 +36,6 @@ public class Program
                 services.AddSingleton<TelegramBotService>(sp =>
                     new TelegramBotService(sp.GetRequiredService<ILogger<TelegramBotService>>(), tgToken, tgChatId));
 
-                // Core - Services
                 services.AddSingleton<ArbitrageService>(sp =>
                 {
                     var clients = sp.GetServices<IExchangeClient>();
