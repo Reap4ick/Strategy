@@ -19,6 +19,7 @@ sudo apt install -y dotnet-sdk-8.0
 sudo apt install -y tmux
 
 # 4. Створення папки для бота та налаштування прав
+# Ми використовуємо папку /home/ubuntu/ArbitrageBot для деплою
 mkdir -p /home/ubuntu/ArbitrageBot
 sudo chown -R ubuntu:ubuntu /home/ubuntu/ArbitrageBot
 
