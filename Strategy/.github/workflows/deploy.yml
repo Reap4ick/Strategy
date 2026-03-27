@@ -1,0 +1,44 @@
+name: Deploy to AWS Lightsail
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish application
+        run: dotnet publish API/API.csproj -c Release -o ./publish
+
+      - name: Deploy to Server via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "./publish/*"
+          target: "/home/ubuntu/ArbitrageBot"
+          strip_components: 1
+
+      - name: Restart Bot via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Зупиняємо стару сесію tmux, якщо вона є
+            tmux kill-session -t arbitrage_bot || true
+            # Створюємо нову сесію та запускаємо бота
+            tmux new-session -d -s arbitrage_bot "cd /home/ubuntu/ArbitrageBot && dotnet ArbitrageBot.API.dll"
+            echo "Бот успішно перезапущений у tmux сесії 'arbitrage_bot'"
