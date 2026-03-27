@@ -54,7 +54,6 @@ public class Program
 
         var arbitrageService = host.Services.GetRequiredService<ArbitrageService>();
 
-        // Use a CancellationToken to allow graceful shutdown
         using var cts = new CancellationTokenSource();
         await arbitrageService.RunMonitorAsync(cts.Token);
     }
