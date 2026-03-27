@@ -13,7 +13,7 @@ wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.
 sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 sudo apt update
-sudo apt install -y dotnet-sdk-8.0
+sudo apt install -y dotnet-sdk-9.0
 
 # 3. Встановлення tmux
 sudo apt install -y tmux
