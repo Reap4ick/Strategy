@@ -3,7 +3,7 @@ name: Deploy to AWS Lightsail
 on:
   push:
     branches:
-      - master  # Оскільки ваша основна гілка називається master
+      - master
 
 jobs:
   deploy:
@@ -15,10 +15,10 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x' # Використовуємо .NET 9, як у вашому проекті
 
       - name: Publish application
-        # Вказуємо шлях до проекту з урахуванням вашої вкладеності Strategy/Strategy/
+        # Публікуємо ваш єдиний проект Strategy.csproj
         run: dotnet publish Strategy/Strategy.csproj -c Release -o ./publish
 
       - name: Deploy to Server via SSH
@@ -40,7 +40,6 @@ jobs:
           script: |
             # Зупиняємо стару сесію tmux, якщо вона є
             tmux kill-session -t arbitrage_bot || true
-            # Створюємо нову сесію та запускаємо бота
-            # Файл після публікації буде називатися Strategy.dll (від назви вашого .csproj)
+            # Запускаємо Strategy.dll (оскільки проект один, назва буде такою)
             tmux new-session -d -s arbitrage_bot "cd /home/ubuntu/ArbitrageBot && dotnet Strategy.dll"
             echo "Бот успішно перезапущений у tmux сесії 'arbitrage_bot'"
