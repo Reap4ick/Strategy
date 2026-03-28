@@ -23,7 +23,6 @@ public class Program
                 var tgToken = "7923659186:AAHeWV9UDBRhYm71ZU1HVjzckV-YG-7O6P4";
                 var tgChatId = 1578680626L;
 
-                // Infrastructure - Clients
                 services.AddHttpClient<BingXClient>();
                 services.AddHttpClient<GateClient>();
 
